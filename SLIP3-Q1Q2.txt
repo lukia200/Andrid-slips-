@@ -1,0 +1,142 @@
+SLIP3-Q1
+(activity_main.xml)
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/collegeNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My College Name"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="@style/NormalTextStyle"
+        android:layout_centerInParent="true"/>
+    <Button
+        android:id="@+id/changeColorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Color"
+        android:layout_below="@id/collegeNameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+</RelativeLayout>
+
+(styles.xml)
+<resources>
+    <style name="NormalTextStyle">
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="LargeTextStyle" parent="NormalTextStyle">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
+
+(dimens.xml)
+<resources>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+</resources>
+
+(colors.xml)
+<resources>
+    <color name="default_text_color">#000000</color>
+    <color name="highlighted_text_color">#FF0000</color>
+</resources>
+
+//java file 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    TextView collegeNameTextView;
+    Button changeColorButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        collegeNameTextView = findViewById(R.id.collegeNameTextView);
+        changeColorButton = findViewById(R.id.changeColorButton);
+        changeColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Change color to highlighted_text_color
+                collegeNameTextView.setTextColor(getResources().getColor(R.color.highlighted_text_color));
+                // Change font size and style to LargeTextStyle
+                collegeNameTextView.setTextAppearance(MainActivity.this, R.style.LargeTextStyle);
+            }
+      });      }      }
+
+SLIP3- Q2
+//(activity_main.xml:)
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+    <EditText
+        android:id="@+id/numberEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Enter a number"/>
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate Factorial"
+        android:layout_below="@id/numberEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+</RelativeLayout>
+
+//java file (MainActivity.java)
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    EditText numberEditText;
+    Button calculateButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        numberEditText = findViewById(R.id.numberEditText);
+        calculateButton = findViewById(R.id.calculateButton);
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numberStr = numberEditText.getText().toString();
+                if (!numberStr.isEmpty()) {
+                    int number = Integer.parseInt(numberStr);
+                    long factorial = calculateFactorial(number);
+                    displayResult(factorial);
+                }            }       });   }
+    private long calculateFactorial(int n) {
+        long factorial = 1;
+        for (int i = 1; i <= n; i++) {
+            factorial *= i;
+        }
+        return factorial;
+    }
+    private void displayResult(long factorial) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Factorial: " + factorial)
+                .setTitle("Factorial Result")
+                .setPositiveButton("OK", null)
+                .show();
+    }      }
+
+

@@ -1,0 +1,167 @@
+SLIP8 -Q1
+// XML FILE 1
+<!-- activity_login.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+  <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username:" />
+            <EditText
+                android:id="@+id/editTextUsername"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </TableRow>
+  <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password:" />
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="textPassword"/>
+        </TableRow>
+ <TableRow>
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
+
+// XML FILE 2
+<!-- activity_next.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Next Activity!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+</LinearLayout>
+
+//Java file 1
+// LoginActivity.java
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+public class LoginActivity extends AppCompatActivity {
+    private EditText editTextUsername, editTextPassword;
+    private Button buttonLogin;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = editTextUsername.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+                // Perform simple login validation (for demonstration purposes)
+                if (username.equals("admin") && password.equals("password")) {
+                    // Display toast message for successful login
+                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                    // Navigate to next activity
+                    Intent intent = new Intent(LoginActivity.this, NextActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Display toast message for failed login
+                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                }        }
+        });      }      }
+
+// Java file 2
+// NextActivity.java
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+public class NextActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_next);
+    }         }
+
+//add these activities to your AndroidManifest.xml file:
+<activity android:name=".LoginActivity" />
+<activity android:name=".NextActivity" />
+
+
+
+SLIP8 - Q2
+//XML File 1
+<!-- activity_main.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <Button
+        android:id="@+id/buttonSendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Email"
+        android:padding="16dp"/>
+</RelativeLayout>
+
+//Java File 1
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_EMAIL = 101;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button buttonSendEmail = findViewById(R.id.buttonSendEmail);
+        buttonSendEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmailWithAttachment();
+            }        });      }
+    private void sendEmailWithAttachment() {
+        // File URI of the attachment (replace with your file path)
+        Uri attachmentUri = Uri.parse("file:///sdcard/myfile.pdf");
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("message/rfc822");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"recipient@example.com"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body of the email");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, attachmentUri);
+        startActivityForResult(Intent.createChooser(emailIntent, "Send email using..."), REQUEST_CODE_EMAIL);
+    }       }
+
+//AndroidManifest.XML
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+

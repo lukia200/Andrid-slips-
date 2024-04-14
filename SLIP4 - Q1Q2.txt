@@ -1,0 +1,258 @@
+SLIP4 - Q1
+// (activity_main.xml)
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <EditText
+        android:id="@+id/firstNumberEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter first number"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@+id/operationButtonsGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/secondNumberEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter second number"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@+id/operationButtonsGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstNumberEditText" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/operationButtonsGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+    <Button
+        android:id="@+id/additionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/operationButtonsGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/subtractionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subtract"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/operationButtonsGuideline"
+        app:layout_constraintTop_toBottomOf="@id/additionButton" />
+    <Button
+        android:id="@+id/multiplicationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Multiply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/operationButtonsGuideline"
+        app:layout_constraintTop_toBottomOf="@id/subtractionButton" />
+    <Button
+        android:id="@+id/divisionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/operationButtonsGuideline"
+        app:layout_constraintTop_toBottomOf="@id/multiplicationButton" />
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divisionButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+//java file (MainActivity.java)
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    EditText firstNumberEditText, secondNumberEditText;
+    Button additionButton, subtractionButton, multiplicationButton, divisionButton;
+    TextView resultTextView;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        firstNumberEditText = findViewById(R.id.firstNumberEditText);
+        secondNumberEditText = findViewById(R.id.secondNumberEditText);
+        additionButton = findViewById(R.id.additionButton);
+        subtractionButton = findViewById(R.id.subtractionButton);
+        multiplicationButton = findViewById(R.id.multiplicationButton);
+        divisionButton = findViewById(R.id.divisionButton);
+        resultTextView = findViewById(R.id.resultTextView);
+        additionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performOperation('+');
+            }       });
+        subtractionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performOperation('-');
+            }        });
+        multiplicationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performOperation('*');
+            }        });
+        divisionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performOperation('/');
+            }        });      }
+    private void performOperation(char operation) {
+        double firstNumber = Double.parseDouble(firstNumberEditText.getText().toString());
+        double secondNumber = Double.parseDouble(secondNumberEditText.getText().toString());
+        double result = 0;
+        switch (operation) {
+            case '+':
+                result = firstNumber + secondNumber;
+                break;
+            case '-':
+                result = firstNumber - secondNumber;
+                break;
+            case '*':
+                result = firstNumber * secondNumber;
+                break;
+            case '/':
+                if (secondNumber != 0) {
+                    result = firstNumber / secondNumber;
+                } else {
+                    resultTextView.setText("Cannot divide by zero");
+                    return;
+                }
+                break;
+        }
+        resultTextView.setText(String.valueOf(result));
+    }       }
+
+
+
+
+SLIP4- Q2
+// (activity_main.xml)
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+    <Button
+        android:id="@+id/sendNotificationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Notification"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
+
+// (activity_display_notification.xml)
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".DisplayNotificationActivity">
+    <TextView
+        android:id="@+id/notificationMessageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
+
+//java file 1 (MainActivity.java)
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+public class MainActivity extends AppCompatActivity {
+    private static final int NOTIFICATION_ID = 1;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button sendNotificationButton = findViewById(R.id.sendNotificationButton);
+        sendNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendNotification("Notification Message");
+            }        });    }
+    private void sendNotification(String message) {
+        // Create an explicit intent for the second activity
+        Intent intent = new Intent(this, DisplayNotificationActivity.class);
+        intent.putExtra("notificationMessage", message);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Notification")
+                .setContentText(message)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        // Show the notification
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }        }
+
+// java file 2 (DisplayNotificationActivity.java)
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class DisplayNotificationActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_notification);
+        TextView notificationMessageTextView = findViewById(R.id.notificationMessageTextView);
+        String notificationMessage = getIntent().getStringExtra("notificationMessage");
+        notificationMessageTextView.setText(notificationMessage);
+    }      }
+
+// (AndroidManifest.xml)
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.notificationapp">
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DisplayNotificationActivity" />
+    </application>
+</manifest>
